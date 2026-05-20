@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(cuid())
+  githubId   String   @unique
+  username   String
+  email      String?
+  avatarUrl  String?
+  createdAt  DateTime @default(now())
+
+  workspaces WorkspaceMember[]
+  secrets    Secret[]
+  auditLogs  AuditLog[]
+}
+
+model Workspace {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members   WorkspaceMember[]
+  secrets   Secret[]
+  auditLogs AuditLog[]
+}
+
+model WorkspaceMember {
+  userId      String
+  workspaceId String
+  role        Role     @default(VIEWER)
+  joinedAt    DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+}
+
+model Secret {
+  id             String    @id @default(cuid())
+  name           String
+  description    String?
+  encryptedBlob  String
+  iv             String
+  salt           String
+  category       String    @default("general")
+  version        Int       @default(1)
+  isActive       Boolean   @default(true)
+  expiresAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  ownerId     String
+  workspaceId String
+
+  owner     User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  auditLogs AuditLog[]
+}
+
+model AuditLog {
+  id          String      @id @default(cuid())
+  action      AuditAction
+  metadata    Json        @default("{}")
+  createdAt   DateTime    @default(now())
+
+  secretId    String?
+  workspaceId String
+  actorId     String
+
+  secret    Secret?   @relation(fields: [secretId], references: [id])
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  actor     User      @relation(fields: [actorId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  OWNER
+  EDITOR
+  VIEWER
+}
+
+enum AuditAction {
+  SECRET_CREATED
+  SECRET_READ
+  SECRET_UPDATED
+  SECRET_DELETED
+  SECRET_ROTATED
+  WORKSPACE_CREATED
+  WORKSPACE_JOINED
+  MEMBER_ADDED
+  MEMBER_REMOVED
+  MEMBER_ROLE_CHANGED
+}
