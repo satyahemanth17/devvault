@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 router.get('/github', (_req: Request, res: Response) => {
   const params = new URLSearchParams({
     client_id: process.env.GITHUB_CLIENT_ID ?? '',
-    redirect_uri: process.env.GITHUB_CALLBACK_URL ?? '',
+    redirect_uri: process.env.GITHUB_CALLBACK_URL ?? 'http://localhost:5002/api/auth/github/callback',
     scope: 'read:user user:email',
   });
   res.redirect(`https://github.com/login/oauth/authorize?${params}`);
@@ -68,7 +68,7 @@ router.get('/github/callback', async (req: Request, res: Response) => {
       expiresIn: '7d',
     });
 
-    res.redirect(`${process.env.FRONTEND_URL}/auth/callback?token=${token}`);
+    res.redirect(`${process.env.FRONTEND_URL ?? 'http://localhost:3002'}/auth/callback?token=${token}`);
   } catch (err) {
     console.error('GitHub OAuth error:', err);
     res.status(500).json({ error: 'OAuth failed' });

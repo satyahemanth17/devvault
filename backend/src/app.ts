@@ -26,6 +26,8 @@ app.use('/api/workspaces/:workspaceId/audit', auditRouter);
 
 app.listen(PORT, () => {
   console.log(`DevVault backend listening on port ${PORT}`);
+  const clientId = process.env.GITHUB_CLIENT_ID;
+  console.log(`GitHub OAuth client_id: ${clientId ? clientId.slice(0, 4) + '...' : 'MISSING'}`);
 });
 
 export default app;
