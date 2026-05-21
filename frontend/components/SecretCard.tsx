@@ -183,9 +183,9 @@ export default function SecretCard({ secret, workspaceId, onDelete }: Props) {
             disabled={loading}
             className="flex-1 text-xs py-1.5 rounded border font-medium transition-colors cursor-pointer"
             style={{ borderColor: '#333', color: '#6b7280' }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ duration: 0.15 }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.94 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
           >
             {loading ? '…' : showPrompt ? 'Decrypt' : 'Reveal'}
           </motion.button>
@@ -194,9 +194,9 @@ export default function SecretCard({ secret, workspaceId, onDelete }: Props) {
             onClick={() => setDecrypted(null)}
             className="flex-1 text-xs py-1.5 rounded border font-medium cursor-pointer"
             style={{ borderColor: '#10b981', color: '#10b981' }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ duration: 0.15 }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.94 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
           >
             Hide
           </motion.button>
@@ -261,9 +261,9 @@ export default function SecretCard({ secret, workspaceId, onDelete }: Props) {
               disabled={rotateLoading}
               className="flex-1 text-xs py-1.5 rounded border font-medium cursor-pointer"
               style={{ borderColor: '#10b981', color: '#10b981' }}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.15 }}
+              whileHover={{ scale: 1.12 }}
+              whileTap={{ scale: 0.92 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
             >
               {rotateLoading ? '…' : 'Confirm Rotate'}
             </motion.button>
@@ -271,9 +271,9 @@ export default function SecretCard({ secret, workspaceId, onDelete }: Props) {
               onClick={() => { setShowRotate(false); setRotateError(''); }}
               className="text-xs px-3 py-1.5 rounded border cursor-pointer"
               style={{ borderColor: '#333', color: '#6b7280' }}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.15 }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
             >
               Cancel
             </motion.button>

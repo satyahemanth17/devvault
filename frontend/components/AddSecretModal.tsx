@@ -163,9 +163,9 @@ export default function AddSecretModal({ workspaceId, onClose, onAdded }: Props)
               onClick={onClose}
               className="flex-1 py-2 text-sm border rounded cursor-pointer"
               style={{ borderColor: '#333', color: '#6b7280' }}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.15 }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
             >
               Cancel
             </motion.button>
@@ -174,9 +174,9 @@ export default function AddSecretModal({ workspaceId, onClose, onAdded }: Props)
               disabled={loading}
               className="flex-1 py-2 text-sm border rounded font-medium cursor-pointer"
               style={{ borderColor: loading ? '#333' : '#fff', color: loading ? '#6b7280' : '#fff' }}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.15 }}
+              whileHover={{ scale: 1.12 }}
+              whileTap={{ scale: 0.92 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
             >
               {loading ? 'Encrypting…' : 'Add Secret'}
             </motion.button>

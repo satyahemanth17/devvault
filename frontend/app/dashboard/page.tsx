@@ -92,9 +92,9 @@ export default function DashboardPage() {
             onClick={handleLogout}
             className="text-xs cursor-pointer"
             style={{ color: '#6b7280' }}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ duration: 0.15 }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.94 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
           >
             Sign out
           </motion.button>
@@ -119,8 +119,8 @@ export default function DashboardPage() {
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.2, delay: index * 0.05, ease: 'easeOut' }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.94 }}
               type="button"
               onClick={() => setActiveWs(ws)}
               className="w-full text-left px-3 py-2 rounded text-sm transition-colors cursor-pointer"
@@ -153,9 +153,9 @@ export default function DashboardPage() {
                   onClick={createWorkspace}
                   className="flex-1 text-xs py-1 rounded border cursor-pointer"
                   style={{ borderColor: '#fff', color: '#fff' }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ duration: 0.15 }}
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.94 }}
+                  transition={{ duration: 0.15, ease: 'easeOut' }}
                 >
                   Create
                 </motion.button>
@@ -163,9 +163,9 @@ export default function DashboardPage() {
                   onClick={() => setShowNewWs(false)}
                   className="flex-1 text-xs py-1 rounded border cursor-pointer"
                   style={{ borderColor: '#333', color: '#6b7280' }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ duration: 0.15 }}
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.94 }}
+                  transition={{ duration: 0.15, ease: 'easeOut' }}
                 >
                   Cancel
                 </motion.button>
@@ -176,9 +176,9 @@ export default function DashboardPage() {
               onClick={() => setShowNewWs(true)}
               className="mt-2 w-full text-left px-3 py-2 text-xs rounded border border-dashed cursor-pointer"
               style={{ borderColor: '#333', color: '#6b7280' }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.15 }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ duration: 0.15, ease: 'easeOut' }}
             >
               + New workspace
             </motion.button>
@@ -197,9 +197,9 @@ export default function DashboardPage() {
                 onClick={() => setShowNewWs(true)}
                 className="px-4 py-2 text-sm border rounded cursor-pointer"
                 style={{ borderColor: '#fff', color: '#fff' }}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ duration: 0.15 }}
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.94 }}
+                transition={{ duration: 0.15, ease: 'easeOut' }}
               >
                 New Workspace
               </motion.button>
@@ -218,9 +218,9 @@ export default function DashboardPage() {
                     onClick={() => setShowAdd(true)}
                     className="px-4 py-2 text-sm border rounded font-medium cursor-pointer"
                     style={{ borderColor: '#fff', color: '#fff' }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    transition={{ duration: 0.15 }}
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.94 }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
                   >
                     + Add Secret
                   </motion.button>
@@ -239,9 +239,9 @@ export default function DashboardPage() {
                       borderBottom: tab === t ? '2px solid #fff' : '2px solid transparent',
                       marginBottom: '-1px',
                     }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    transition={{ duration: 0.15 }}
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.94 }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
                   >
                     {t}
                   </motion.button>
