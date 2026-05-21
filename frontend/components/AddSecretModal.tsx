@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { api } from '@/lib/api';
 import { encrypt } from '@/lib/crypto';
 
@@ -60,7 +61,10 @@ export default function AddSecretModal({ workspaceId, onClose, onAdded }: Props)
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
       style={{ background: 'rgba(0,0,0,0.8)' }}
     >
-      <div
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
         className="w-full max-w-md rounded border p-6"
         style={{ background: '#111111', borderColor: '#222222' }}
       >
@@ -172,7 +176,7 @@ export default function AddSecretModal({ workspaceId, onClose, onAdded }: Props)
             </button>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 }

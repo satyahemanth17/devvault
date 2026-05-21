@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { api, type AuditEntry } from '@/lib/api';
 
 const ACTION_COLORS: Record<string, string> = {
@@ -64,8 +65,11 @@ export default function AuditLog({ workspaceId }: { workspaceId: string }) {
               </tr>
             ) : (
               logs.map((log, i) => (
-                <tr
+                <motion.tr
                   key={log.id}
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, delay: i * 0.05, ease: 'easeOut' }}
                   style={{ borderBottom: i < logs.length - 1 ? '1px solid #1a1a1a' : undefined }}
                 >
                   <td
@@ -90,7 +94,7 @@ export default function AuditLog({ workspaceId }: { workspaceId: string }) {
                   <td className="px-4 py-2" style={{ color: '#6b7280' }}>
                     {new Date(log.createdAt).toLocaleString()}
                   </td>
-                </tr>
+                </motion.tr>
               ))
             )}
           </tbody>

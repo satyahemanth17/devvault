@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { api, type SecretMeta } from '@/lib/api';
-import { decrypt } from '@/lib/crypto';
+import { decrypt, encrypt } from '@/lib/crypto';
 
 interface Props {
   secret: SecretMeta;
@@ -24,6 +25,14 @@ export default function SecretCard({ secret, workspaceId, onDelete }: Props) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const [showRotate, setShowRotate] = useState(false);
+  const [rotateCurrPw, setRotateCurrPw] = useState('');
+  const [rotateNewVal, setRotateNewVal] = useState('');
+  const [rotateNewPw, setRotateNewPw] = useState('');
+  const [rotateError, setRotateError] = useState('');
+  const [rotateLoading, setRotateLoading] = useState(false);
+  const [rotateSuccess, setRotateSuccess] = useState(false);
 
   async function handleDecrypt() {
     setLoading(true);
@@ -48,10 +57,44 @@ export default function SecretCard({ secret, workspaceId, onDelete }: Props) {
     onDelete?.();
   }
 
+  async function handleRotate() {
+    if (!rotateCurrPw || !rotateNewVal || !rotateNewPw) {
+      setRotateError('All three fields are required');
+      return;
+    }
+    setRotateLoading(true);
+    setRotateError('');
+    try {
+      const full = await api.getSecret(workspaceId, secret.id);
+      await decrypt(full.encryptedBlob, full.iv, full.salt, rotateCurrPw);
+      const { encryptedBlob, iv, salt } = await encrypt(rotateNewVal, rotateNewPw);
+      await api.rotateSecret(workspaceId, secret.id, { encryptedBlob, iv, salt });
+      setRotateSuccess(true);
+      setTimeout(() => {
+        setShowRotate(false);
+        setRotateSuccess(false);
+        setRotateCurrPw('');
+        setRotateNewVal('');
+        setRotateNewPw('');
+        onDelete?.();
+      }, 800);
+    } catch (err) {
+      setRotateError(err instanceof Error ? err.message : 'Rotation failed');
+    } finally {
+      setRotateLoading(false);
+    }
+  }
+
   const catColor = categoryColors[secret.category] ?? '#6b7280';
 
   return (
-    <div className="p-4 rounded border" style={{ background: '#111111', borderColor: '#222222' }}>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
+      className="p-4 rounded border"
+      style={{ background: '#111111', borderColor: '#222222' }}
+    >
       <div className="flex items-start justify-between gap-2 mb-3">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
@@ -159,7 +202,75 @@ export default function SecretCard({ secret, workspaceId, onDelete }: Props) {
         >
           Del
         </button>
+        <button
+          onClick={() => { setShowRotate(!showRotate); setRotateError(''); }}
+          className="text-xs px-3 py-1.5 rounded border transition-colors"
+          style={{ borderColor: '#10b98144', color: '#10b981' }}
+        >
+          Rotate
+        </button>
       </div>
-    </div>
+
+      {showRotate && !rotateSuccess && (
+        <div className="mt-3 space-y-2">
+          <input
+            type="password"
+            value={rotateCurrPw}
+            onChange={(e) => setRotateCurrPw(e.target.value)}
+            placeholder="Current password"
+            className="w-full px-3 py-2 text-xs rounded border bg-transparent text-white focus:outline-none focus:border-white"
+            style={{ borderColor: '#333' }}
+            autoFocus
+          />
+          <textarea
+            value={rotateNewVal}
+            onChange={(e) => setRotateNewVal(e.target.value)}
+            placeholder="New secret value"
+            rows={2}
+            className="w-full px-3 py-2 text-xs rounded border bg-transparent text-white focus:outline-none focus:border-white font-mono resize-none"
+            style={{ borderColor: '#333' }}
+          />
+          <input
+            type="password"
+            value={rotateNewPw}
+            onChange={(e) => setRotateNewPw(e.target.value)}
+            placeholder="New encryption password"
+            className="w-full px-3 py-2 text-xs rounded border bg-transparent text-white focus:outline-none focus:border-white"
+            style={{ borderColor: '#333' }}
+          />
+          {rotateError && (
+            <p className="text-xs" style={{ color: '#ef4444' }}>
+              {rotateError}
+            </p>
+          )}
+          <div className="flex gap-2">
+            <button
+              onClick={handleRotate}
+              disabled={rotateLoading}
+              className="flex-1 text-xs py-1.5 rounded border font-medium"
+              style={{ borderColor: '#10b981', color: '#10b981' }}
+            >
+              {rotateLoading ? '…' : 'Confirm Rotate'}
+            </button>
+            <button
+              onClick={() => { setShowRotate(false); setRotateError(''); }}
+              className="text-xs px-3 py-1.5 rounded border"
+              style={{ borderColor: '#333', color: '#6b7280' }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {rotateSuccess && (
+        <div
+          className="mt-3 text-xs text-center py-2 rounded"
+          style={{ color: '#10b981', background: '#10b98111' }}
+        >
+          Secret rotated successfully
+        </div>
+      )}
+    </motion.div>
   );
 }

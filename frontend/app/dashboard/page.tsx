@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { api, type User, type Workspace, type SecretMeta } from '@/lib/api';
 import SecretCard from '@/components/SecretCard';
 import AddSecretModal from '@/components/AddSecretModal';
@@ -105,9 +106,13 @@ export default function DashboardPage() {
           >
             Workspaces
           </div>
-          {workspaces.map((ws) => (
-            <button
+          {workspaces.map((ws, index) => (
+            <motion.button
               key={ws.id}
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.2, delay: index * 0.05, ease: 'easeOut' }}
+              type="button"
               onClick={() => setActiveWs(ws)}
               className="w-full text-left px-3 py-2 rounded text-sm transition-colors"
               style={{
@@ -120,7 +125,7 @@ export default function DashboardPage() {
               <div className="text-xs mt-0.5" style={{ color: '#444' }}>
                 {ws.role}
               </div>
-            </button>
+            </motion.button>
           ))}
 
           {showNewWs ? (
@@ -230,7 +235,7 @@ export default function DashboardPage() {
                         key={s.id}
                         secret={s}
                         workspaceId={activeWs.id}
-                        onDelete={() => setSecrets((p) => p.filter((x) => x.id !== s.id))}
+                        onDelete={() => api.getSecrets(activeWs.id).then(setSecrets).catch(() => {})}
                       />
                     ))}
                   </div>

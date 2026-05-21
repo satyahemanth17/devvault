@@ -105,6 +105,16 @@ export const api = {
       body: JSON.stringify(data),
     }),
 
+  rotateSecret: (
+    workspaceId: string,
+    secretId: string,
+    data: { encryptedBlob: string; iv: string; salt: string }
+  ) =>
+    request<{ id: string; version: number }>(
+      `/workspaces/${workspaceId}/secrets/${secretId}/rotate`,
+      { method: 'POST', body: JSON.stringify(data) }
+    ),
+
   deleteSecret: async (workspaceId: string, secretId: string) => {
     const res = await fetch(`${API_BASE}/workspaces/${workspaceId}/secrets/${secretId}`, {
       method: 'DELETE',
