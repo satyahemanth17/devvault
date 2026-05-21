@@ -158,22 +158,28 @@ export default function AddSecretModal({ workspaceId, onClose, onAdded }: Props)
           )}
 
           <div className="flex gap-3 pt-2">
-            <button
+            <motion.button
               type="button"
               onClick={onClose}
-              className="flex-1 py-2 text-sm border rounded"
+              className="flex-1 py-2 text-sm border rounded cursor-pointer"
               style={{ borderColor: '#333', color: '#6b7280' }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.15 }}
             >
               Cancel
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               type="submit"
               disabled={loading}
-              className="flex-1 py-2 text-sm border rounded font-medium"
+              className="flex-1 py-2 text-sm border rounded font-medium cursor-pointer"
               style={{ borderColor: loading ? '#333' : '#fff', color: loading ? '#6b7280' : '#fff' }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.15 }}
             >
               {loading ? 'Encrypting…' : 'Add Secret'}
-            </button>
+            </motion.button>
           </div>
         </form>
       </motion.div>

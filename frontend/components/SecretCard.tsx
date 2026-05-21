@@ -178,37 +178,49 @@ export default function SecretCard({ secret, workspaceId, onDelete }: Props) {
 
       <div className="flex gap-2">
         {!decrypted ? (
-          <button
+          <motion.button
             onClick={() => (showPrompt ? handleDecrypt() : setShowPrompt(true))}
             disabled={loading}
-            className="flex-1 text-xs py-1.5 rounded border font-medium transition-colors"
+            className="flex-1 text-xs py-1.5 rounded border font-medium transition-colors cursor-pointer"
             style={{ borderColor: '#333', color: '#6b7280' }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.15 }}
           >
             {loading ? '…' : showPrompt ? 'Decrypt' : 'Reveal'}
-          </button>
+          </motion.button>
         ) : (
-          <button
+          <motion.button
             onClick={() => setDecrypted(null)}
-            className="flex-1 text-xs py-1.5 rounded border font-medium"
+            className="flex-1 text-xs py-1.5 rounded border font-medium cursor-pointer"
             style={{ borderColor: '#10b981', color: '#10b981' }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.15 }}
           >
             Hide
-          </button>
+          </motion.button>
         )}
-        <button
+        <motion.button
           onClick={handleDelete}
-          className="text-xs px-3 py-1.5 rounded border transition-colors"
+          className="text-xs px-3 py-1.5 rounded border transition-colors cursor-pointer"
           style={{ borderColor: '#222', color: '#6b7280' }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.15 }}
         >
           Del
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={() => { setShowRotate(!showRotate); setRotateError(''); }}
-          className="text-xs px-3 py-1.5 rounded border transition-colors"
+          className="text-xs px-3 py-1.5 rounded border transition-colors cursor-pointer"
           style={{ borderColor: '#10b98144', color: '#10b981' }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.15 }}
         >
           Rotate
-        </button>
+        </motion.button>
       </div>
 
       {showRotate && !rotateSuccess && (
@@ -244,21 +256,27 @@ export default function SecretCard({ secret, workspaceId, onDelete }: Props) {
             </p>
           )}
           <div className="flex gap-2">
-            <button
+            <motion.button
               onClick={handleRotate}
               disabled={rotateLoading}
-              className="flex-1 text-xs py-1.5 rounded border font-medium"
+              className="flex-1 text-xs py-1.5 rounded border font-medium cursor-pointer"
               style={{ borderColor: '#10b981', color: '#10b981' }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.15 }}
             >
               {rotateLoading ? '…' : 'Confirm Rotate'}
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={() => { setShowRotate(false); setRotateError(''); }}
-              className="text-xs px-3 py-1.5 rounded border"
+              className="text-xs px-3 py-1.5 rounded border cursor-pointer"
               style={{ borderColor: '#333', color: '#6b7280' }}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.15 }}
             >
               Cancel
-            </button>
+            </motion.button>
           </div>
         </div>
       )}

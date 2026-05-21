@@ -88,9 +88,16 @@ export default function DashboardPage() {
             <img src={user.avatarUrl} alt={user.username} className="w-6 h-6 rounded-full" />
           )}
           <span className="text-sm" style={{ color: '#6b7280' }}>{user?.username}</span>
-          <button onClick={handleLogout} className="text-xs" style={{ color: '#6b7280' }}>
+          <motion.button
+            onClick={handleLogout}
+            className="text-xs cursor-pointer"
+            style={{ color: '#6b7280' }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.15 }}
+          >
             Sign out
-          </button>
+          </motion.button>
         </div>
       </nav>
 
@@ -112,9 +119,11 @@ export default function DashboardPage() {
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.2, delay: index * 0.05, ease: 'easeOut' }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               type="button"
               onClick={() => setActiveWs(ws)}
-              className="w-full text-left px-3 py-2 rounded text-sm transition-colors"
+              className="w-full text-left px-3 py-2 rounded text-sm transition-colors cursor-pointer"
               style={{
                 background: activeWs?.id === ws.id ? '#1a1a1a' : 'transparent',
                 color: activeWs?.id === ws.id ? '#fff' : '#6b7280',
@@ -140,30 +149,39 @@ export default function DashboardPage() {
                 style={{ borderColor: '#333' }}
               />
               <div className="flex gap-2 mt-1">
-                <button
+                <motion.button
                   onClick={createWorkspace}
-                  className="flex-1 text-xs py-1 rounded border"
+                  className="flex-1 text-xs py-1 rounded border cursor-pointer"
                   style={{ borderColor: '#fff', color: '#fff' }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.15 }}
                 >
                   Create
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   onClick={() => setShowNewWs(false)}
-                  className="flex-1 text-xs py-1 rounded border"
+                  className="flex-1 text-xs py-1 rounded border cursor-pointer"
                   style={{ borderColor: '#333', color: '#6b7280' }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.15 }}
                 >
                   Cancel
-                </button>
+                </motion.button>
               </div>
             </div>
           ) : (
-            <button
+            <motion.button
               onClick={() => setShowNewWs(true)}
-              className="mt-2 w-full text-left px-3 py-2 text-xs rounded border border-dashed"
+              className="mt-2 w-full text-left px-3 py-2 text-xs rounded border border-dashed cursor-pointer"
               style={{ borderColor: '#333', color: '#6b7280' }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.15 }}
             >
               + New workspace
-            </button>
+            </motion.button>
           )}
         </aside>
 
@@ -175,13 +193,16 @@ export default function DashboardPage() {
               <p className="text-sm mb-4" style={{ color: '#6b7280' }}>
                 Create a workspace to get started
               </p>
-              <button
+              <motion.button
                 onClick={() => setShowNewWs(true)}
-                className="px-4 py-2 text-sm border rounded"
+                className="px-4 py-2 text-sm border rounded cursor-pointer"
                 style={{ borderColor: '#fff', color: '#fff' }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.15 }}
               >
                 New Workspace
-              </button>
+              </motion.button>
             </div>
           ) : (
             <>
@@ -193,31 +214,37 @@ export default function DashboardPage() {
                   </p>
                 </div>
                 {(activeWs.role === 'OWNER' || activeWs.role === 'EDITOR') && (
-                  <button
+                  <motion.button
                     onClick={() => setShowAdd(true)}
-                    className="px-4 py-2 text-sm border rounded font-medium"
+                    className="px-4 py-2 text-sm border rounded font-medium cursor-pointer"
                     style={{ borderColor: '#fff', color: '#fff' }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
                   >
                     + Add Secret
-                  </button>
+                  </motion.button>
                 )}
               </div>
 
               {/* Tabs */}
               <div className="flex gap-1 mb-6 border-b" style={{ borderColor: '#222' }}>
                 {(['secrets', 'audit'] as const).map((t) => (
-                  <button
+                  <motion.button
                     key={t}
                     onClick={() => setTab(t)}
-                    className="px-4 py-2 text-sm capitalize transition-colors"
+                    className="px-4 py-2 text-sm capitalize transition-colors cursor-pointer"
                     style={{
                       color: tab === t ? '#fff' : '#6b7280',
                       borderBottom: tab === t ? '2px solid #fff' : '2px solid transparent',
                       marginBottom: '-1px',
                     }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
                   >
                     {t}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
 
