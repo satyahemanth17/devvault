@@ -28,7 +28,7 @@ password ───────────────────────�
 
 | Layer | Technology |
 |-------|------------|
-| Frontend | Next.js 14, TypeScript, Tailwind CSS |
+| Frontend | Next.js 14, TypeScript, Tailwind CSS, Framer Motion |
 | Encryption | Web Crypto API — AES-256-GCM, PBKDF2 (100k iterations) |
 | Backend | Node.js, Express.js, TypeScript |
 | ORM | Prisma with PostgreSQL |

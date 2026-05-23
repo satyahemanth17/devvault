@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DevVault — Frontend
 
-## Getting Started
+Next.js 14 frontend for DevVault, a zero-knowledge secrets management platform.
 
-First, run the development server:
+## What This Is
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The frontend handles all encryption. Secrets are encrypted with AES-256-GCM in the browser using the Web Crypto API before being sent to the backend. The server only ever stores ciphertext — it cannot read your secrets.
+
+## Tech Stack
+
+| | |
+|-|-|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Animations | Framer Motion |
+| Encryption | Web Crypto API — AES-256-GCM + PBKDF2 |
+
+## Structure
+
+```
+app/
+  page.tsx              # Landing page + GitHub OAuth login
+  dashboard/page.tsx    # Main app — workspaces, secrets, audit log
+components/
+  SecretCard.tsx        # Per-secret card with reveal / rotate / delete
+  AddSecretModal.tsx    # Modal to add a new secret (encrypts in browser)
+  AuditLog.tsx          # Paginated audit log table
+lib/
+  crypto.ts             # AES-256-GCM encrypt/decrypt (browser only, 'use client')
+  api.ts                # Typed API client
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Running Locally
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Requires the backend running at `http://localhost:5002`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev   # http://localhost:3002
+```
 
-## Learn More
+## Encryption Flow
 
-To learn more about Next.js, take a look at the following resources:
+`crypto.ts` is `'use client'` — it runs exclusively in the browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+encrypt(secretValue, password):
+  1. PBKDF2(password, randomSalt, 100_000 iterations, SHA-256) → key
+  2. AES-256-GCM(key, randomIV, secretValue) → encryptedBlob
+  3. POST { encryptedBlob, iv, salt } to backend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+decrypt(encryptedBlob, iv, salt, password):
+  1. PBKDF2(password, salt, 100_000 iterations, SHA-256) → key
+  2. AES-256-GCM decrypt(key, iv, encryptedBlob) → plaintext
+  3. Displayed for 30 seconds, then auto-cleared
+```
 
-## Deploy on Vercel
+The server never receives `secretValue` or `password` under any circumstance.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Design System
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Background: `#0a0a0a`, Surface: `#111111`, Border: `#222222`
+- Accent: `#10b981` (emerald), Danger: `#ef4444`
+- Font: Inter, system-ui fallback
+- Style: minimal, monochrome, HashiCorp/Vault aesthetic
